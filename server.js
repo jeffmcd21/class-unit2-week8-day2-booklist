@@ -23,11 +23,21 @@ app.use(express.urlencoded({ extended: true })) // body parser this is how we ge
 // Routes and Router //
 
 // INDEX Route - GET render all of the books
+app.get("/books", async (req, res) => {
+    // Find all of the books
+    let books = await Book.find({})
+    
+    // Render all of the books to index.ejs
+    res.render("index.ejs", {
+        books: books.reverse()
+    })
 
+})
 
 // NEW - GET for the form to create a new book
 app.get("/books/new", (req, res) => {
-    res.send("new book")
+    //res.send("new book")
+    res.render("new.ejs")
 })
 
 
