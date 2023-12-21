@@ -1,0 +1,12 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <%- include("./partials/head.ejs") %>
+<body>
+    <% console.log(book) %>
+    <%- include("./partials/nav.ejs") %>
+    <h1><%= book.title %></h1>
+    <h3><%= book.auther %></h3>
+    <p><%= book.completed ? "Yes read that": "Still on this list" %></p>
+</body>
+</html>
