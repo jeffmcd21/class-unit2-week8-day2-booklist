@@ -8,8 +8,9 @@
     <%- include("./partials/head.ejs") %>
 </head>
 <body>
+    <%- include("./partials/nav.ejs") %>
     <h1>New Book Form</h1>
-    <a href="/books">Go Back</a>
+    <!-- <a href="/books">Go Back</a> -->
     <form action="/books" method="post">
         Titel: <input type="text" name="title"><br>
         Author: <input type="text" name="author"><br>
