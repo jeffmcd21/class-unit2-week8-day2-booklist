@@ -59,7 +59,57 @@ app.delete("/books/:id", async (req, res) => {
     }
 })
 
-// UPDATE Route
+// // UPDATE Route
+// app.put("/books/:id", async (req, res) => {
+//     // Handle our checkbox logic
+//     if (req.body.completed === "on") {
+//         req.body.completed = true
+//     } else {
+//         req.body.completed = false 
+//     }
+//     // Find by _id and update with the req.body
+//     // findByIdAndUpdate - id, data to udpate, options
+//     let updatedBook = await Book.findByIdAndUpdate(
+//         req.params.id,
+//         req.body,
+//         {
+//             new: true
+//         }
+//     )
+//     // Redirect to the show route with the updated book
+//     res.redirect(`/books/${updatedBook._id}`)
+// })
+
+// UPDATE
+app.put("/books/:id", async (req, res) => {
+    
+    try {
+        // handle our checkbox
+        if (req.body.completed === "on") {
+            req.body.completed = true
+        } else {
+            req.body.completed = false
+        }
+        // Then find by id and update with the req.body
+        // findByIdAndUpdate - id , data to update, options
+        let updatedBook = await Book.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            {
+                new: true
+            }
+        )
+    
+        // redirect to the show route with the updated book
+        res.redirect(`/books/${updatedBook._id}`)
+        
+    } catch (error) {
+        res.send("something went wrong in this route")        
+    }
+})
+
+
+
 
 
 // Create - POST
@@ -89,7 +139,7 @@ app.get("/books/edit/:id", async (req, res) => {
     try{
         // Fund the book to edit
         let foundBook = await Book.findById(req.params.id)
-        res.render("edit", {
+        res.render("edit.ejs", {
             book: foundBook
         })
     } catch (error) {
