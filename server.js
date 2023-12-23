@@ -6,6 +6,9 @@ require("./config/db")
 const express = require("express")
 const morgan = require("morgan")
 
+// Also see middleware connection below
+const methodOverride = require("method-override")
+
 const app = express();
 const { PORT = 3013 } = process.env;
 
@@ -18,6 +21,8 @@ app.use(morgan("dev"))
 
 app.use(express.urlencoded({ extended: true })) // body parser this is how we get access to req.body
 
+// Let's us use DELETE PUT HTTP verbs
+app.use(methodOverride("_method")) 
 
 
 // Routes and Router //
@@ -40,6 +45,22 @@ app.get("/books/new", (req, res) => {
     res.render("new.ejs")
 })
 
+// DELETE Route
+app.delete("/books/:id", async (req, res) => {
+    try {
+        
+        // Find a book and then delete
+        let deletedBook = await Book.findByIdAndDelete(req.params.id)
+        //console.log(deletedBook)
+        // Redirect back to the index
+        res.redirect("/books")
+    } catch (error) {
+        res.status(500).send("We have and issue")
+    }
+})
+
+// UPDATE Route
+
 
 // Create - POST
 app.post("/books", async (req, res) => {
@@ -59,6 +80,21 @@ app.post("/books", async (req, res) => {
     } catch (err) {
         res.send(err)
     } 
+})
+
+
+// EDIT Route
+
+app.get("/books/edit/:id", async (req, res) => {
+    try{
+        // Fund the book to edit
+        let foundBook = await Book.findById(req.params.id)
+        res.render("edit", {
+            book: foundBook
+        })
+    } catch (error) {
+        res.send("You need to fix me")
+    }
 })
 
 
